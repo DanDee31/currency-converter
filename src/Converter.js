@@ -17,7 +17,7 @@ function Converter() {
         const fetchCurrencies = async () => {
             try {
                 const response = await fetch(
-                    `http://api.exchangeratesapi.io/v1/latest?access_key=${accessKey}`
+                    `https://api.exchangeratesapi.io/v1/latest?access_key=${accessKey}`
                 );
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
