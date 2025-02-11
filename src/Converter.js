@@ -36,27 +36,26 @@ function Converter() {
 
     useEffect(() => {
         const fetchRate = async () => {
-            if (!fromCurrency || !toCurrency) return;
-
             try {
-                const response = await fetch(
-                    `http://api.exchangeratesapi.io/v1/latest?access_key=${accessKey}`
-                );
+                const response = await fetch(`https://api.exchangeratesapi.io/v1/latest?access_key=${accessKey}`);
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    const errorText = await response.text();
+                    throw new Error(`HTTP error! status: ${response.status}, details: ${errorText}`);
                 }
                 const data = await response.json();
-
-                if (!data.rates[fromCurrency] || !data.rates[toCurrency]) {
-                    throw new Error("Invalid currency selected.");
-                }
-
+        
+                if (!data.rates) throw new Error("Rates not available.");
+        
                 const fromRate = data.rates[fromCurrency];
-                const toRate = data.rates[toCurrency]; 
-                const calculatedRate = toRate / fromRate; 
-                setRate(calculatedRate);
+                const toRate = data.rates[toCurrency];
+        
+                if (!fromRate || !toRate) throw new Error("Currency rates missing.");
+        
+                const newRate = toRate / fromRate;
+                setRate(newRate);
             } catch (err) {
                 setError(err.message);
+                console.error("Error fetching rate:", err);
             }
         };
 
