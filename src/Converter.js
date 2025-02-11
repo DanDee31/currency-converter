@@ -11,7 +11,7 @@ function Converter() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const accessKey = "dfce5a89ea680089bf8de80d60be4067"; // Replace with your actual API key
+    const accessKey = "dfce5a89ea680089bf8de80d60be4067"; 
 
     useEffect(() => {
         const fetchCurrencies = async () => {
@@ -47,15 +47,13 @@ function Converter() {
                 }
                 const data = await response.json();
 
-                // Ensure both currencies exist in the fetched data
                 if (!data.rates[fromCurrency] || !data.rates[toCurrency]) {
                     throw new Error("Invalid currency selected.");
                 }
 
-                // Convert via EUR
-                const fromRate = data.rates[fromCurrency]; // Rate of fromCurrency to EUR
-                const toRate = data.rates[toCurrency]; // Rate of toCurrency to EUR
-                const calculatedRate = toRate / fromRate; // Convert fromCurrency -> EUR -> toCurrency
+                const fromRate = data.rates[fromCurrency]; 
+                const toRate = data.rates[toCurrency]; 
+                const calculatedRate = toRate / fromRate; 
                 setRate(calculatedRate);
             } catch (err) {
                 setError(err.message);
